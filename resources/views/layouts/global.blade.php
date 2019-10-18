@@ -10,7 +10,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
-  <title>Museum Tekstil</title>
+  <title>Museum Seni Rupa Dan Keramik</title>
 
   <link rel="stylesheet" href="{{ asset('dist/modules/bootstrap/css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dist/modules/ionicons/css/ionicons.min.css') }}">
@@ -38,11 +38,39 @@
             <button class="btn" type="submit"><i class="ion ion-search"></i></button>
           </div> -->
         </form>
+        @guest
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+        </li>
+        @if (Route::has('register'))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+            </li>
+        @endif
+    @else
+        <li class="nav-item dropdown">
+            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                {{ Auth::user()->name }} <span class="caret"></span>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </div>
+        </li>
+    @endguest
       </nav>
       <div class="main-sidebar">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.php">Museum Tekstil</a>
+            <a href="#">Museum Seni Rupa Dan Keramik</a>
           </div>
           <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
@@ -65,7 +93,63 @@
       </div>
       <div class="main-content">
         <section class="section">
-            @yield('content')
+            @if (\Route::current()->getName() == 'home' || \Route::current()->getName() == '')
+            <div class="row">
+              <div class="col-md-12">
+                <h1 class="section-header">
+                  <div>Dashboard</div>
+                </h1>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card card-sm-3" style="display:flex; align-items:center;" >
+                      <a href="{{ route('inputPengunjung') }}">
+                      <div class="card-icon bg-primary">
+                        <i class="fas fa-user-plus"></i>
+                      </div>
+                      </a>
+                      <div class="card-wrap">
+                        <div class="card-header" style="padding-top: 0;">
+                          Input Data Pengunjung
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-6">
+                    <div class="card card-sm-3" style="display:flex; align-items:center;" >
+                      <a href="{{ route('dataPengunjung') }}">
+                      <div class="card-icon bg-primary">
+                        <i class="fas fa-users"></i>
+                      </div>
+                      </a>
+                      <div class="card-wrap">
+                        <div class="card-header" style="padding-top: 0;">
+                          View Data Pengunjung
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-6">
+                    <div class="card card-sm-3" style="display:flex; align-items:center;" >
+                      <a href="{{ route('dataPengunjungNow') }}">
+                      <div class="card-icon bg-primary">
+                        <i class="fas fa-users"></i>
+                      </div>
+                      </a>
+                      <div class="card-wrap">
+                        <div class="card-header" style="padding-top: 0;">
+                          View Data Pengunjung Hari Ini
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+            @else
+                @yield('content')
+            @endif
         </section>
       </div>
       <footer class="main-footer">

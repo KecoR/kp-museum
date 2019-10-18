@@ -12,10 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.global');
-})->name('home');
+    return redirect('/home');
+});
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/dataPengunjung', 'PengunjungController@dataPengunjung')->name('dataPengunjung');
 Route::get('/dataPengunjungNow', 'PengunjungController@dataPengunjungNow')->name('dataPengunjungNow');
